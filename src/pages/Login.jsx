@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import Header from "../components/shared/Header";
+import MainWrapper from "../components/shared/MainWrapper";
 
 const Login = () => {
   return (
-    <div>Login</div>
-  )
-}
+    <MainWrapper>
+      <Header />
+    </MainWrapper>
+  );
+};
 
-export default Login
+export default Login;
