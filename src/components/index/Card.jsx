@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "../shared/Button";
+
+import { Link } from "react-router-dom";
 
 const Card = () => {
   return (
@@ -8,8 +9,18 @@ const Card = () => {
         <p className="card-title text-base font-semibold ">
           Join Our Platform - Login or Register
         </p>
-        <Button to={"login"} text={"Member Login"} />
-        <Button to={"register"} type="outline" text={"Register Now"} />
+        <Link
+          to="/login"
+          className="btn bg-indigo-700  hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4 "
+        >
+          Member Login
+        </Link>
+        <Link
+          to="/register"
+          className="btn  bg-black hover:bg-indigo-700 hover:text-white uppercase hover:border-none border-black w-full text-white text-base mt-4"
+        >
+          Register now
+        </Link>
       </div>
     </div>
   );

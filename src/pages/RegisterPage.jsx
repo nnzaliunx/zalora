@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import RegisterForm from "../components/register/RegisterForm";
+import { supabase } from "../supabase";
 
 const Register = () => {
+  console.log(supabase);
   return (
     <div className="flex flex-col justify-center items-center mx-2">
       <div className="card w-full shadow-2xl shadow-indigo-300 mx-auto ">
@@ -10,7 +12,6 @@ const Register = () => {
           <h2 className="card-title text-xl font-semibold">
             Register to Your Account
           </h2>
-
           <p className="text-sm text-left">
             Already have an account?
             <Link
