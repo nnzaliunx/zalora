@@ -1,21 +1,20 @@
 import React from "react";
-import Header from "../components/shared/Header";
-import MainWrapper from "../components/shared/MainWrapper";
+
 import { Link } from "react-router-dom";
-import Form from "../components/login/Form";
+import LoginForm from "../components/login/LoginForm";
 
 const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center mt-10 mx-2">
       <div className="card w-full shadow-2xl shadow-indigo-300 mx-auto mt-8">
-        <div className="card-body items-center text-center mb-4">
+        <div className="card-body  text-center mb-4">
           <h2 className="card-title text-xl font-semibol">
             Login to Your Account
           </h2>
-          <p className="text-sm">
+          <p className="text-sm text-left">
             Welcome back! Please sign in to access your account.
           </p>
-          <p className="text-sm">
+          <p className="text-sm text-left">
             New?
             <Link
               to="/register"
@@ -24,7 +23,7 @@ const Login = () => {
               Create an Account
             </Link>
           </p>
-          <Form />
+          <LoginForm />
         </div>
       </div>
     </div>

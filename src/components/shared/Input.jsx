@@ -1,12 +1,12 @@
 const Input = ({ label, type, placeholder }) => {
   return (
-    <label class="form-control w-full">
+    <label class="form-control w-full mt-2">
       <span class="label label-text font-bold text-sm">{label}</span>
-      <div class="flex space-x-4 max-w-full">
+      <div class="flex items-center input input-bordered input-primary w-full flex-2 text-sm">
         <input
           type={`${type}`}
           placeholder={`Enter ${placeholder}`}
-          class="input input-bordered input-primary w-full flex-2 text-sm"
+          class=" grow"
           required
         />
       </div>
