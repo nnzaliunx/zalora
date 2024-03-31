@@ -44,6 +44,8 @@ const LoginForm = ({ setToken }) => {
         setToken(data);
         sessionStorage.setItem("token", JSON.stringify(data));
         navigate("/home");
+      } else {
+        setErrorMessage(error.message);
       }
     } catch (error) {
       setLoading(false);
