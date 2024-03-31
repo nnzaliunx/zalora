@@ -4,7 +4,6 @@ import RegisterForm from "../components/register/RegisterForm";
 import { supabase } from "../supabase";
 
 const Register = () => {
-  console.log(supabase);
   return (
     <div className="flex flex-col justify-center items-center mx-2">
       <div className="card w-full shadow-2xl shadow-indigo-300 mx-auto ">

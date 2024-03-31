@@ -1,9 +1,8 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import LoginForm from "../components/login/LoginForm";
 
-const Login = () => {
+const Login = ({ setToken }) => {
   return (
     <div className="flex flex-col justify-center items-center mt-10 mx-2">
       <div className="card w-full shadow-2xl shadow-indigo-300 mx-auto mt-8">
@@ -23,7 +22,7 @@ const Login = () => {
               Create an Account
             </Link>
           </p>
-          <LoginForm />
+          <LoginForm setToken={setToken} />
         </div>
       </div>
     </div>

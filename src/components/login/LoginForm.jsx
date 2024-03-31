@@ -4,7 +4,7 @@ import { supabase } from "../../supabase";
 import Error from "../shared/Error";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = ({ setToken }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ const LoginForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // Update to use state for error message
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   // Define the type variable based on the showPassword state
   const type = showPassword ? "text" : "password";
@@ -31,29 +31,25 @@ const LoginForm = () => {
     }));
   }
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state to true when submitting form
-    if (formData.password.length < 6) {
-      setErrorMessage("Password must be at least 6 characters long."); // Update error message state
-      setLoading(false);
-      return; // Prevent further execution
-    }
+    setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error, data } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
       setLoading(false);
-      if (!error && data) {
-        // Redirect to login page upon successful signup
+      if (data && !error) {
+        setToken(data);
+        sessionStorage.setItem("token", JSON.stringify(data));
         navigate("/home");
       }
     } catch (error) {
       setLoading(false);
-      setErrorMessage(error.message); // Update error message state
+      setErrorMessage(error.message);
     }
-  }
+  };
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       {errorMessage && <Error msg={errorMessage} />}
