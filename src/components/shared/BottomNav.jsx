@@ -32,15 +32,7 @@ const BottomNav = () => {
         }
         label="Home"
       />
-      <NavigationButton
-        to="/orders"
-        icon={
-          <IconContext.Provider value={{ size: "18px" }}>
-            <FaCartArrowDown />
-          </IconContext.Provider>
-        }
-        label="Order"
-      />
+
       <NavigationButton
         to="/task"
         icon={

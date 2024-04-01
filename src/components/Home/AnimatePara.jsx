@@ -13,7 +13,7 @@ const AnimatePara = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentParagraphIndex(
-        (prevIndex) => (prevIndex + 1) % paragraphs.length,
+        (prevIndex) => (prevIndex + 1) % paragraphs.length
       );
     }, 7000); // Change paragraph every 1 second
 
@@ -25,7 +25,7 @@ const AnimatePara = () => {
       {paragraphs.map((paragraph, index) => (
         <p
           key={index}
-          className={`absolute top-0 left-0 w-full text-center transition-opacity duration-1000  rounded-lg bg-slate-900 text-white py-4 px-2 ${
+          className={`absolute bg-indigo-200 top-0 left-0 w-full text-center transition-opacity duration-1000  rounded-lg text-black py-4 px-2 ${
             currentParagraphIndex === index ? "opacity-100" : "opacity-0"
           }`}
         >

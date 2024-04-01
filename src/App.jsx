@@ -6,7 +6,6 @@ import RegisterPage from "./pages/RegisterPage";
 import InitialLayout from "./Layout/InitialLayout";
 import MainLayout from "./Layout/MainLayout";
 import HomePage from "./pages/HomePage";
-import OrderPage from "./pages/OrderPage";
 import TaskPage from "./pages/TaskPage";
 import ServicePage from "./pages/ServicePage";
 import ProfilePage from "./pages/ProfilePage";
@@ -35,7 +34,6 @@ const App = () => {
       {token && (
         <Route path="/" element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/orders" element={<OrderPage />} />
           <Route path="/task" element={<TaskPage />} />
           <Route path="/service" element={<ServicePage />} />
           <Route path="/profile" element={<ProfilePage token={token} />} />

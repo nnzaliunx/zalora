@@ -10,7 +10,6 @@ import { MdOutlineTouchApp } from "react-icons/md";
 import { IconContext } from "react-icons";
 
 const HomePage = () => {
-
   return (
     <>
       <div className="bg-white text-black mt-16  pt-4 ">
@@ -31,7 +30,7 @@ const HomePage = () => {
         </Link>
         <AnimatePara />
       </div>
-      <div className=" mt-24 bg-white w-full ">
+      <div className=" mt-28 bg-white w-full ">
         <h3 className=" text-lg font-semibold">Partnership Brands</h3>
         <p className="text-sm text-slate-400">Brand Friendly Partners</p>
         <Brand />

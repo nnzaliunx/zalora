@@ -38,7 +38,7 @@ const Brand = () => {
           <img
             src={lazada}
             alt="Logo 2"
-            className="h-12 w-auto object-contain"
+            className="h-6 w-auto object-contain"
           />
         </div>
       </div>
