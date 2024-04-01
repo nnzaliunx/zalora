@@ -24,3 +24,9 @@
   padding: 0;
   margin: 0;
 }
+
+.active {
+  background-color:#4338ca;
+  color: #fff;
+  border: none;
+}
