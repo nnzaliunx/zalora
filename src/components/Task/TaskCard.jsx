@@ -3,28 +3,16 @@ import { MdOutlineTouchApp } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 import { FaDollarSign } from "react-icons/fa";
-import data from "../../data.json";
+
 import ProductTask from "./ProductTask";
 
 const TaskCard = () => {
-  const [model, setModel] = useState(false);
   let orderLimit = 38;
   const [balance, setBalance] = useState(10);
   const [earned, setEarned] = useState(0);
   const [frozen, setFrozen] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
-  const [currentProduct, setCurrentProduct] = useState("");
 
-  const handleModal = () => {
-    if (!model) {
-      setModel(true);
-    }
-    document.getElementById("my_modal_3").showModal();
-    // Select a random product from the data array
-    const randomIndex = Math.floor(Math.random() * data.length);
-    const selectedProduct = data[randomIndex];
-    setCurrentProduct(selectedProduct);
-  };
   return (
     <div className="card w-full  shadow-lg  border-2 border-indigo-100">
       <div className="bg-indigo-700 text-white rounded-lg p-6">
@@ -70,7 +58,7 @@ const TaskCard = () => {
         <div className="card-actions">
           <button
             className="btn bg-indigo-700  hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
-            onClick={handleModal}
+            onClick={() => document.getElementById("my_modal_3").showModal()}
           >
             <IconContext.Provider value={{ color: "white", size: "20px" }}>
               <MdOutlineTouchApp />
@@ -80,12 +68,7 @@ const TaskCard = () => {
           <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
               <form method="dialog">
-                <ProductTask
-                  product={currentProduct}
-                  earned={earned}
-                  setEarned={setEarned}
-                />
-                {console.log(currentProduct)}
+                <ProductTask earned={earned} setEarned={setEarned} />
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                   ✕
                 </button>
