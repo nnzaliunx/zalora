@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import data from "../../data.json";
+import { supabase } from "../../supabase";
 
 const ProductTask = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -14,8 +15,24 @@ const ProductTask = () => {
     setCurrentProduct(getRandomProduct());
   }, []); // Empty dependency array ensures this effect runs only once
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setCurrentProduct(getRandomProduct());
+    try {
+      const { data, error } = await supabase
+        .from("product")
+        .insert({
+          name: name,
+          total_price: totalPrice,
+          quantity: quantity,
+          unit_price: unitPrice,
+          commission: commission,
+        })
+        .single();
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(data);
   };
 
   const getRandomProduct = () => {
