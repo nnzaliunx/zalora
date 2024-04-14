@@ -1,17 +1,28 @@
 import React from "react";
 import { MdOutlineTouchApp } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaDollarSign } from "react-icons/fa";
 
 import ProductTask from "./ProductTask";
 
 const TaskCard = () => {
-  let orderLimit = 38;
+  const [showModal, setShowModal] = useState(false);
+  let orderLimit = 6;
   const [balance, setBalance] = useState(10);
   const [earned, setEarned] = useState(0);
   const [frozen, setFrozen] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
+
+  if (showModal) {
+    document.getElementById("my_modal_3").showModal();
+  }
+
+  function handleModal() {
+    if (orderCount < orderLimit) {
+      setShowModal(true);
+    }
+  }
 
   return (
     <div className="card w-full  shadow-lg  border-2 border-indigo-100">
@@ -29,7 +40,7 @@ const TaskCard = () => {
         <div className="flex justify-between items-center text-sm font-semibold  pb-4 border-b-2 ">
           <div>
             <p className="flex items-center text-base ">
-              <FaDollarSign /> {earned}
+              <FaDollarSign /> {earned.toFixed(2)}
             </p>
             <p>Earned Amount</p>
           </div>
@@ -58,7 +69,7 @@ const TaskCard = () => {
         <div className="card-actions">
           <button
             className="btn bg-indigo-700  hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
+            onClick={handleModal}
           >
             <IconContext.Provider value={{ color: "white", size: "20px" }}>
               <MdOutlineTouchApp />
@@ -68,7 +79,16 @@ const TaskCard = () => {
           <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
               <form method="dialog">
-                <ProductTask earned={earned} setEarned={setEarned} />
+                <ProductTask
+                  earned={earned}
+                  setEarned={setEarned}
+                  balance={balance}
+                  setBalance={setBalance}
+                  frozen={frozen}
+                  setFrozen={setFrozen}
+                  orderCount={orderCount}
+                  setOrderCount={setOrderCount}
+                />
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                   ✕
                 </button>

@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import data from "../../data.json";
 import { supabase } from "../../supabase";
 
-const ProductTask = () => {
+const ProductTask = ({
+  earned,
+  setEarned,
+  balance,
+  setBalance,
+  orderCount,
+  setOrderCount,
+}) => {
   const [currentProduct, setCurrentProduct] = useState(null);
 
   useEffect(() => {
@@ -11,28 +18,55 @@ const ProductTask = () => {
       const randomIndex = Math.floor(Math.random() * data.length);
       return data[randomIndex];
     };
-
     setCurrentProduct(getRandomProduct());
   }, []); // Empty dependency array ensures this effect runs only once
 
-  const handleConfirm = async () => {
-    setCurrentProduct(getRandomProduct());
+  // Function to get current user's ID
+  async function getCurrentUserID() {
     try {
-      const { data, error } = await supabase
-        .from("product")
-        .insert({
-          name: name,
-          total_price: totalPrice,
-          quantity: quantity,
-          unit_price: unitPrice,
-          commission: commission,
-        })
-        .single();
-      if (error) throw error;
+      const user = (await supabase.auth.getUser()).data.user.id;
+      return user;
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching user data:", error);
     }
-    console.log(data);
+  }
+
+  getCurrentUserID();
+
+  async function saveUserData(userId) {
+    try {
+      // Check if user data already exists
+      const { data, error } = await supabase
+        .from("user_data")
+        .select("*")
+        .eq("user_id", userId);
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error("Error saving user data:", error.message);
+    }
+  }
+
+  const handleConfirm = () => {
+    setCurrentProduct(getRandomProduct());
+    setEarned((prev) => prev + parseFloat(commission));
+    setBalance((prev) => prev + parseFloat(commission));
+    setOrderCount((prev) => prev + 1);
+    getCurrentUserID()
+      .then((userId) => {
+        saveUserData(userId)
+          .then(() => {
+            console.log("User data saved successfully.");
+          })
+          .catch((error) => {
+            console.error("Error saving user data:", error.message);
+          });
+      })
+      .catch((error) => {
+        console.error("Error getting user ID:", error);
+      });
   };
 
   const getRandomProduct = () => {
