@@ -33,7 +33,7 @@ const ProductTask = ({
 
   getCurrentUserID();
 
-  async function saveUserData(userId) {
+  async function saveUserData(userId, balance, earnedAmount) {
     try {
       // Check if user data already exists
       const { data, error } = await supabase
@@ -44,25 +44,43 @@ const ProductTask = ({
       if (error) {
         throw error;
       }
+      // If user data doesn't exist, insert new row
+      if (!data || data.length === 0) {
+        const { error } = await supabase
+          .from("user_data")
+          .insert([
+            { user_id: userId, balance: balance, earned_amount: earnedAmount },
+          ]);
+        if (error) {
+          throw error;
+        }
+      } else {
+        // If user data exists, update existing row
+        const { error } = await supabase
+          .from("user_data")
+          .update({ balance: balance, earned_amount: earnedAmount })
+          .eq("user_id", userId);
+        if (error) {
+          throw error;
+        }
+      }
+
+      console.log("User data saved successfully.");
     } catch (error) {
       console.error("Error saving user data:", error.message);
     }
   }
 
   const handleConfirm = () => {
+    const balance = 1000; // Example balance
+    const earnedAmount = 500; // Example earned amount
     setCurrentProduct(getRandomProduct());
     setEarned((prev) => prev + parseFloat(commission));
     setBalance((prev) => prev + parseFloat(commission));
     setOrderCount((prev) => prev + 1);
     getCurrentUserID()
       .then((userId) => {
-        saveUserData(userId)
-          .then(() => {
-            console.log("User data saved successfully.");
-          })
-          .catch((error) => {
-            console.error("Error saving user data:", error.message);
-          });
+        saveUserData(userId, balance, earnedAmount);
       })
       .catch((error) => {
         console.error("Error getting user ID:", error);
