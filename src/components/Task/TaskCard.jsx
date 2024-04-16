@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineTouchApp } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaDollarSign } from "react-icons/fa";
 
 import ProductTask from "./ProductTask";
@@ -14,12 +14,9 @@ const TaskCard = () => {
   const [frozen, setFrozen] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
 
-  if (showModal) {
-    document.getElementById("my_modal_3").showModal();
-  }
-
   function handleModal() {
     if (orderCount < orderLimit) {
+      setOrderCount((prev) => (prev += 1));
       setShowModal(true);
     }
   }
@@ -76,25 +73,25 @@ const TaskCard = () => {
             </IconContext.Provider>
             Start Taking Orders
           </button>
-          <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
-              <form method="dialog">
-                <ProductTask
-                  earned={earned}
-                  setEarned={setEarned}
-                  balance={balance}
-                  setBalance={setBalance}
-                  frozen={frozen}
-                  setFrozen={setFrozen}
-                  orderCount={orderCount}
-                  setOrderCount={setOrderCount}
-                />
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                  ✕
-                </button>
-              </form>
+          {showModal && (
+            <div className="backdrop">
+              <dialog
+                id="my_modal_3"
+                className="modal backdrop"
+                open={showModal}
+              >
+                <div className="modal-box">
+                  <ProductTask setShowModal={setShowModal} />
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </dialog>
             </div>
-          </dialog>
+          )}
         </div>
       </div>
     </div>
