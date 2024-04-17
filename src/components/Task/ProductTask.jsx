@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaDollarSign } from "react-icons/fa";
-import data from "../../data.json";
+import data from "../../data";
 import { supabase } from "../../supabase";
 import { SlControlStart } from "react-icons/sl";
 
-const ProductTask = ({ setShowModal }) => {
-  const [currentProduct, setCurrentProduct] = useState(null);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [earned, setEarned] = useState(0);
-
+const ProductTask = ({ setShowModal, orderCount}) => {
+  // Function to generate random product data
   const getRandomProduct = () => {
     const randomIndex = Math.floor(Math.random() * data.length);
     return data[randomIndex];
   };
+  const randomProduct = getRandomProduct();
 
-  useEffect(() => {
-    setCurrentProduct(getRandomProduct());
-  }, []); // Empty dependency array ensures this effect runs only once
+  const name = randomProduct.name;
+  const price = randomProduct.price;
+  const quantity = randomProduct.quantity;
+  const image = randomProduct.image;
+  const unitPrice = (price / quantity).toFixed(2);
+  const commission = (price * 0.01).toFixed(2);
+
+  const earned = commission;
+  const totalAmount = earned;
 
   // Function to get current user's ID
   async function getCurrentUserID() {
@@ -28,25 +32,7 @@ const ProductTask = ({ setShowModal }) => {
     }
   }
 
-  getCurrentUserID();
-
-  useEffect(() => {
-    // Calculate earned amount when a new product is generated
-    if (currentProduct) {
-      const commission = (currentProduct.price * 0.01).toFixed(2);
-      setEarned(() => earned + parseFloat(commission));
-    }
-  }, [currentProduct]);
-
-  useEffect(() => {
-    // Calculate earned amount when a new product is generated
-    if (currentProduct) {
-      const totalAmount = (currentProduct.price * 0.01).toFixed(2);
-      setTotalAmount(() => earned + parseFloat(totalAmount));
-    }
-  }, [currentProduct]);
-
-  async function saveUserData(userId, balance, earnedAmount) {
+  async function saveUserData(userId, earned, balance) {
     try {
       // Check if user data already exists
       const { data, error } = await supabase
@@ -57,51 +43,61 @@ const ProductTask = ({ setShowModal }) => {
       if (error) {
         throw error;
       }
-      let newEarnedAmount = earnedAmount;
-      let newTotalAmount = totalAmount; // Initialize with the passed earned amount
-      // If user data exists, update existing row with incremented earned amount
-      if (data && data.length > 0) {
+      let newEarnedAmount = earned;
+      let newTotalAmount = balance;
+      // If user data doesn't exist, insert new row
+      if (!data || data.length === 0) {
+        // Add an initial amount of +10 for new customers
+
+        newTotalAmount = Number(newTotalAmount) + 10;
+
+        const { error: saveError } = await supabase.from("user_data").insert([
+          {
+            user_id: userId,
+            balance: newTotalAmount,
+            earned_amount: newEarnedAmount,
+            task_completed: orderCount,
+          },
+        ]);
+
+        if (saveError) {
+          throw saveError;
+        }
+      } else {
+        // If user data exists, update existing row with incremented earned amount
         const existingEarnedAmount = data[0].earned_amount;
-        newEarnedAmount = existingEarnedAmount + earnedAmount;
+        newEarnedAmount = Number(existingEarnedAmount) + Number(earned);
         const existingTotalAmount = data[0].balance;
-        newTotalAmount = existingTotalAmount + totalAmount;
+        newTotalAmount = Number(existingTotalAmount) + Number(balance);
       }
 
       const { error: saveError } = await supabase.from("user_data").upsert({
         user_id: userId,
-        balance: balance,
+        balance: newTotalAmount,
         earned_amount: newEarnedAmount,
+        task_completed: orderCount,
       });
 
       if (saveError) {
         throw saveError;
       }
-      console.log(newEarnedAmount);
-      console.log(newTotalAmount);
+
       console.log("User data saved successfully.");
     } catch (error) {
       console.error("Error saving user data:", error.message);
     }
   }
 
+  // Modal Close
   const handleConfirm = async () => {
-    setCurrentProduct(getRandomProduct());
     setShowModal(false);
     try {
       const userId = await getCurrentUserID();
-      // Pass newEarned instead of earned
-      await saveUserData(userId, totalAmount, earned);
+      await saveUserData(userId, earned, totalAmount);
     } catch (error) {
-      console.error("Error confirming review:", error);
+      console.log(error);
     }
   };
-
-  if (!currentProduct) {
-    return <div>Loading...</div>;
-  }
-
-  const { name, price, quantity, image } = currentProduct;
-
   return (
     <>
       <h3 className="font-bold text-lg">Order task</h3>
@@ -112,7 +108,7 @@ const ProductTask = ({ setShowModal }) => {
           <p>Unit Price:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {(price / quantity).toFixed(2)}
+            {unitPrice}
           </p>
         </div>
         <div className="detail flex items-center mb-2">
@@ -130,7 +126,7 @@ const ProductTask = ({ setShowModal }) => {
           <p>Commission:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {(price * 0.01).toFixed(2)}
+            {commission}
           </p>
         </div>
       </div>

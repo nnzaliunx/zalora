@@ -1,18 +1,60 @@
 import React from "react";
 import { MdOutlineTouchApp } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaDollarSign } from "react-icons/fa";
+import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
 const TaskCard = () => {
   const [showModal, setShowModal] = useState(false);
   let orderLimit = 6;
-  const [balance, setBalance] = useState(10);
-  const [earned, setEarned] = useState(0);
-  const [frozen, setFrozen] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
+  const [userData, setUserData] = useState(null);
+  const [balance, setBalance] = useState(0);
+  const [earned, setEarned] = useState(0);
+  const frozen = 0;
+
+  // Function to get current user's ID
+  async function getCurrentUserID() {
+    try {
+      const user = (await supabase.auth.getUser()).data.user.id;
+      return user;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  useEffect(() => {
+    if (userData) {
+      setBalance(userData.balance.toFixed(2)); // Move setBalance inside useEffect
+      setOrderCount(userData.task_completed);
+      setEarned(userData.earned_amount.toFixed(2));
+    }
+  }, [userData]);
+
+  async function fetchUserData() {
+    try {
+      const user = await getCurrentUserID();
+      if (user) {
+        const { data, error } = await supabase
+          .from("user_data")
+          .select("*")
+          .eq("user_id", user)
+          .single();
+        if (error) {
+          throw error;
+        }
+        setUserData(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+    }
+  }
 
   function handleModal() {
     if (orderCount < orderLimit) {
@@ -37,7 +79,7 @@ const TaskCard = () => {
         <div className="flex justify-between items-center text-sm font-semibold  pb-4 border-b-2 ">
           <div>
             <p className="flex items-center text-base ">
-              <FaDollarSign /> {earned.toFixed(2)}
+              <FaDollarSign /> {earned}
             </p>
             <p>Earned Amount</p>
           </div>
@@ -57,7 +99,7 @@ const TaskCard = () => {
           </div>
           <div>
             <p className="flex items-center justify-end text-base ">
-              <FaDollarSign className="" /> {balance.toFixed(2)}
+              <FaDollarSign className="" /> {balance}
             </p>
             <p>Available balance</p>
           </div>
@@ -81,7 +123,10 @@ const TaskCard = () => {
                 open={showModal}
               >
                 <div className="modal-box">
-                  <ProductTask setShowModal={setShowModal} />
+                  <ProductTask
+                    setShowModal={setShowModal}
+                    orderCount={orderCount}
+                  />
                   <button
                     onClick={() => setShowModal(false)}
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
