@@ -6,12 +6,12 @@ import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
-const TaskCard = ({token}) => {
+const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
   let orderLimit = 6;
   const [orderCount, setOrderCount] = useState(0);
   const [userData, setUserData] = useState(null);
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(20);
   const [earned, setEarned] = useState(0);
   const [loading, setLoading] = useState(false);
   const frozen = 0;

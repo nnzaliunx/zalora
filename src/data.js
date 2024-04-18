@@ -1,27 +1,27 @@
 const data = [
   {
     id: 1,
-    name: "Female Att..",
-    price: 254.99,
+    name: "Women's Half Skirt Casual Sheath Dress Solid Color",
+    price: 18.99,
     image:
-      "https://f.nooncdn.com/p/pzsku/Z9421004A0EF1EB1E67A9Z/45/_/1704264413/b5d978e5-703e-4a14-abfc-70aa60c1484e.jpg?format=avif&width=240",
-    quantity: 4,
+      "https://f.nooncdn.com/p/pzsku/ZDEAB6CDEB9BCC3FEF499Z/45/_/1680758073/b040a7c6-8219-4572-ae16-e2074d9d7d10.jpg?format=avif&width=240",
+    quantity: 1,
   },
   {
     id: 2,
-    name: "Handbag Set",
-    price: 255.84,
+    name: "New Arrival Large Size Dress for Women Bow-Knot Pure Color",
+    price: 19.84,
     image:
-      "https://f.nooncdn.com/p/pzsku/Z81D1B4305E29C21668E1Z/45/_/1694562784/6be63188-4ce7-4c77-a018-32f7b0f1fbf8.jpg?format=avif&width=240",
-    quantity: 3,
+      "https://f.nooncdn.com/p/pzsku/Z586585A916A045718BC6Z/45/_/1704870279/5a3ac98b-1b82-404e-b800-5aada976de68.jpg?format=avif&width=240",
+    quantity: 1,
   },
   {
     id: 3,
-    name: "Belted Dress",
-    price: 254.84,
+    name: "Leather Satchel Handbag Black",
+    price: 16.84,
     image:
-      "https://f.nooncdn.com/p/pzsku/Z5D9110709C4A8D17C798Z/45/_/1698932217/d2c56711-4a96-4899-8273-691f021270d2.jpg?format=avif&width=240",
-    quantity: 3,
+      "https://f.nooncdn.com/p/v1616527424/N45710848A_3.jpg?format=avif&width=240",
+    quantity: 1,
   },
   {
     id: 4,
