@@ -34,7 +34,7 @@ const App = () => {
       {token && (
         <Route path="/" element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/task" element={<TaskPage />} />
+          <Route path="/task" element={<TaskPage token={token} />} />
           <Route path="/service" element={<ServicePage />} />
           <Route path="/profile" element={<ProfilePage token={token} />} />
         </Route>

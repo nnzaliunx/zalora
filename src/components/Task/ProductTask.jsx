@@ -3,8 +3,16 @@ import { FaDollarSign } from "react-icons/fa";
 import data from "../../data";
 import { supabase } from "../../supabase";
 
-const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, setEarned, setBalance }) => {
-  
+const ProductTask = ({
+  setLoading,
+  setShowModal,
+  orderCount,
+  updateOrderCount,
+  setEarned,
+  setBalance,
+  token,
+}) => {
+  console.log(token);
   // Function to generate random product data
   const getRandomProduct = () => {
     const randomIndex = Math.floor(Math.random() * data.length);
@@ -21,17 +29,7 @@ const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, s
 
   const earned = commission;
 
-  // Function to get current user's ID
-  async function getCurrentUserID() {
-    try {
-      const user = (await supabase.auth.getUser()).data.user.id;
-      return user;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  }
-
-  async function saveUserData(userId, earned, balance) {
+  async function saveUserData(userId, earned, balance, count, email, fullName) {
     try {
       // Check if user data already exists
       const { data, error } = await supabase
@@ -46,16 +44,17 @@ const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, s
       let newTotalAmount = balance;
       // If user data doesn't exist, insert new row
       if (!data || data.length === 0) {
-        
         // Add an initial amount of +10 for new customers
-        newTotalAmount = Number(newTotalAmount) + 10;
+        newTotalAmount = Number(newTotalAmount) + 20;
 
         const { error: saveError } = await supabase.from("user_data").insert([
           {
             user_id: userId,
             balance: newTotalAmount,
             earned_amount: newEarnedAmount,
-            task_completed: orderCount,
+            task_completed: count,
+            email: email,
+            name: fullName,
           },
         ]);
 
@@ -74,7 +73,9 @@ const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, s
         user_id: userId,
         balance: newTotalAmount,
         earned_amount: newEarnedAmount,
-        task_completed: orderCount,
+        task_completed: count,
+        email: email,
+        name: fullName,
       });
 
       if (saveError) {
@@ -91,9 +92,18 @@ const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, s
   const handleConfirm = async () => {
     setShowModal(false);
     try {
-      setLoading(true)
-      const userId = await getCurrentUserID();
-      await saveUserData(userId, earned, earned);
+      setLoading(true);
+      const userId = token.user.id;
+      const email = token.user.email;
+      const fullName = token.user.user_metadata.full_name;
+      await saveUserData(
+        userId,
+        earned,
+        earned,
+        orderCount + 1,
+        email,
+        fullName,
+      );
 
       // Update order count in TaskCard component
       updateOrderCount(orderCount + 1);
@@ -112,7 +122,7 @@ const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, s
       if (data) {
         setEarned(data.earned_amount.toFixed(2));
         setBalance(data.balance.toFixed(2));
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);

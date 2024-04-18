@@ -6,7 +6,7 @@ import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
-const TaskCard = () => {
+const TaskCard = ({token}) => {
   const [showModal, setShowModal] = useState(false);
   let orderLimit = 6;
   const [orderCount, setOrderCount] = useState(0);
@@ -165,6 +165,7 @@ const TaskCard = () => {
                         setEarned={setEarned}
                         setBalance={setBalance}
                         setLoading={setLoading}
+                        token={token}
                       />
                       <button
                         onClick={() => setShowModal(false)}
