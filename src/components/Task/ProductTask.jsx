@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaDollarSign } from "react-icons/fa";
 import data from "../../data";
 import { supabase } from "../../supabase";
-import { SlControlStart } from "react-icons/sl";
 
-const ProductTask = ({ setShowModal, orderCount}) => {
+const ProductTask = ({ setLoading, setShowModal, orderCount, updateOrderCount, setEarned, setBalance }) => {
+  
   // Function to generate random product data
   const getRandomProduct = () => {
     const randomIndex = Math.floor(Math.random() * data.length);
@@ -20,7 +20,6 @@ const ProductTask = ({ setShowModal, orderCount}) => {
   const commission = (price * 0.01).toFixed(2);
 
   const earned = commission;
-  const totalAmount = earned;
 
   // Function to get current user's ID
   async function getCurrentUserID() {
@@ -47,8 +46,8 @@ const ProductTask = ({ setShowModal, orderCount}) => {
       let newTotalAmount = balance;
       // If user data doesn't exist, insert new row
       if (!data || data.length === 0) {
+        
         // Add an initial amount of +10 for new customers
-
         newTotalAmount = Number(newTotalAmount) + 10;
 
         const { error: saveError } = await supabase.from("user_data").insert([
@@ -92,8 +91,29 @@ const ProductTask = ({ setShowModal, orderCount}) => {
   const handleConfirm = async () => {
     setShowModal(false);
     try {
+      setLoading(true)
       const userId = await getCurrentUserID();
-      await saveUserData(userId, earned, totalAmount);
+      await saveUserData(userId, earned, earned);
+
+      // Update order count in TaskCard component
+      updateOrderCount(orderCount + 1);
+
+      const { data, error } = await supabase
+        .from("user_data")
+        .select("*")
+        .eq("user_id", userId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      // Update earned and balance states with the latest data
+      if (data) {
+        setEarned(data.earned_amount.toFixed(2));
+        setBalance(data.balance.toFixed(2));
+        setLoading(false)
+      }
     } catch (error) {
       console.log(error);
     }
