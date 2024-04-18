@@ -12,7 +12,6 @@ const ProductTask = ({
   setBalance,
   token,
 }) => {
-  console.log(token);
   // Function to generate random product data
   const getRandomProduct = () => {
     const randomIndex = Math.floor(Math.random() * data.length);
@@ -102,7 +101,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName,
+        fullName
       );
 
       // Update order count in TaskCard component

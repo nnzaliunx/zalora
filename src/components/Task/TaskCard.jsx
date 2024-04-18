@@ -8,6 +8,7 @@ import ProductTask from "./ProductTask";
 
 const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showInnerModal, setInnerModal] = useState(false);
   let orderLimit = 6;
   const [orderCount, setOrderCount] = useState(0);
   const [userData, setUserData] = useState(null);
@@ -86,6 +87,18 @@ const TaskCard = ({ token }) => {
     }
   }
 
+  function handleInnerModal() {
+    setInnerModal(true);
+  }
+  function handleInnerCloseModal() {
+    setInnerModal(false);
+  }
+
+  function handleConfirm() {
+    setInnerModal(false);
+    setShowModal(false);
+  }
+
   // Callback function to update order count
   const updateOrderCount = (newOrderCount) => {
     setOrderCount(newOrderCount);
@@ -152,11 +165,7 @@ const TaskCard = ({ token }) => {
               </button>
               {showModal && (
                 <div className="backdrop">
-                  <dialog
-                    id="my_modal_3"
-                    className="modal backdrop"
-                    open={showModal}
-                  >
+                  <dialog id="my_modal_3" className="modal" open={showModal}>
                     <div className="modal-box">
                       <ProductTask
                         setShowModal={setShowModal}
@@ -168,11 +177,45 @@ const TaskCard = ({ token }) => {
                         token={token}
                       />
                       <button
-                        onClick={() => setShowModal(false)}
+                        onClick={handleInnerModal}
                         className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                       >
                         ✕
                       </button>
+                    </div>
+                  </dialog>
+                </div>
+              )}
+              {showInnerModal && (
+                <div className="backdrop">
+                  <dialog
+                    id="my_modal_1"
+                    className="modal"
+                    open={showInnerModal}
+                  >
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">
+                        Are you sure you want to opt out of accepting the task?
+                      </h3>
+                      <p className="py-4">
+                        The canceled task will automatically be frozen in the
+                        task list
+                      </p>
+                      <div className="modal-action">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button
+                          onClick={handleInnerCloseModal}
+                          className="btn bg-indigo-700 text-white "
+                        >
+                          Continue
+                        </button>
+                        <button
+                          className="btn btn-error text-white"
+                          onClick={handleConfirm}
+                        >
+                          Confirm Cancel
+                        </button>
+                      </div>
                     </div>
                   </dialog>
                 </div>
