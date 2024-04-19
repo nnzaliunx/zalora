@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import data from "../../data";
 import { supabase } from "../../supabase";
@@ -9,15 +9,34 @@ const ProductTask = ({
   orderCount,
   updateOrderCount,
   setEarned,
+  balance,
   setBalance,
   token,
 }) => {
   // Function to generate random product data
-  const getRandomProduct = () => {
-    const randomIndex = Math.floor(Math.random() * data.length);
-    return data[randomIndex];
+  const getRandomProduct = (balance) => {
+    let filteredData;
+    if (balance > 0) {
+      // Filter data to get products with price less than balance
+      filteredData = data.filter((item) => item.price < balance);
+    } else {
+      // Filter data to get products with price less than 20
+      filteredData = data.filter((item) => item.price < 20);
+    }
+    if (filteredData.length > 0) {
+      const randomIndex = Math.floor(Math.random() * filteredData.length);
+      return filteredData[randomIndex];
+    } else {
+      // If filteredData is empty, return null or handle accordingly
+      return null;
+    }
   };
-  const randomProduct = getRandomProduct();
+  const [randomProduct, setRandomProduct] = useState(getRandomProduct(balance));
+
+  useEffect(() => {
+    // Update randomProduct when TaskCard re-renders
+    setRandomProduct(getRandomProduct());
+  }, [orderCount]);
 
   const name = randomProduct.name;
   const price = randomProduct.price;
@@ -101,7 +120,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName
+        fullName,
       );
 
       // Update order count in TaskCard component
