@@ -9,43 +9,44 @@ const ProductTask = ({
   orderCount,
   updateOrderCount,
   setEarned,
- 
   balance,
   setBalance,
   token,
 }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
-  console.log(orderCount)
 
- // Function to generate random product data
-const getRandomProduct = (balance, orderCount) => {
-  let filteredData;
-  // Filter data to get products with price less than balance
-  if (balance > 0) {
-    filteredData = data.filter((item) => item.price < balance);
-  } else {
-    filteredData = data.filter((item) => item.price < 20);
-  }
+  const getRandomProduct = (balance, orderCount) => {
+    let filteredData;
 
-  // If orderCount is 5 and there are products with price greater than balance,
-  // select a random product from those
-  if (orderCount === 5) {
-    const productsGreaterThanBalance = data.filter((item) => item.price > balance);
-    if (productsGreaterThanBalance.length > 0) {
-      filteredData = productsGreaterThanBalance;
+    // Filter data to get products with price less than balance
+    if (balance > 0) {
+      filteredData = data.filter((item) => item.price < balance);
+    } else {
+      filteredData = data.filter((item) => item.price < 20);
     }
-  }
 
-  // If no products are found after filtering, return null
-  if (filteredData.length === 0) {
-    return null;
-  }
+    // If orderCount is 5 and there are products with price greater than balance,
+    // select a random product from those
+    if (orderCount === 5) {
+      const productsGreaterThanBalance = data.filter(
+        (item) => item.price > balance
+      );
+      if (productsGreaterThanBalance.length > 0) {
+        filteredData = productsGreaterThanBalance;
+      } else {
+        return null; // No products meet the criteria, return null
+      }
+    }
 
-  // Select a random product from the filteredData
-  const randomIndex = Math.floor(Math.random() * filteredData.length);
-  return filteredData[randomIndex];
-};
+    // If no products are found after filtering, return null
+    if (filteredData.length === 0) {
+      return null;
+    }
 
+    // Select a random product from the filteredData
+    const randomIndex = Math.floor(Math.random() * filteredData.length);
+    return filteredData[randomIndex];
+  };
 
   useEffect(() => {
     // Check if current product exists in localStorage
@@ -60,14 +61,18 @@ const getRandomProduct = (balance, orderCount) => {
         newProduct = getRandomProduct(balance, orderCount);
       } else {
         // For other order counts, filter products with price less than balance
-        newProduct = getRandomProduct(balance);
+        newProduct = getRandomProduct(balance, orderCount);
       }
       setCurrentProduct(newProduct);
       // Save the new product to localStorage
       localStorage.setItem("currentProduct", JSON.stringify(newProduct));
     }
+
+    // Remove item from localStorage if orderCount is 0
+    if (orderCount === 0) {
+      localStorage.removeItem("currentProduct");
+    }
   }, [balance, orderCount]);
-  
 
   async function saveUserData(userId, earned, balance, count, email, fullName) {
     try {
@@ -127,9 +132,7 @@ const getRandomProduct = (balance, orderCount) => {
       console.error("Error saving user data:", error.message);
     }
   }
-  const earned = currentProduct
-    ? (currentProduct.price * 0.01).toFixed(2)
-    : "";
+  const earned = currentProduct ? (currentProduct.price * 0.01).toFixed(2) : "";
   const handleConfirm = async () => {
     try {
       if (balance < currentProduct.price) {
@@ -212,9 +215,7 @@ const getRandomProduct = (balance, orderCount) => {
           <p>Commission:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {currentProduct
-              ? (currentProduct.price * 0.01).toFixed(2)
-              : ""}
+            {currentProduct ? (currentProduct.price * 0.01).toFixed(2) : ""}
           </p>
         </div>
       </div>
@@ -234,17 +235,11 @@ const getRandomProduct = (balance, orderCount) => {
           </div>
           <p className="text-sm">Select Your Reviews:</p>
           <select className="select select-primary w-full max-w-xs">
-            <option value="option1">
-              Amazing product! Highly recommend!
-            </option>
+            <option value="option1">Amazing product! Highly recommend!</option>
             <option value="option2">Love it! Great quality!</option>
             <option value="option3">Impressive! Must-have item!</option>
-            <option value="option4">
-              Incredible value! 5 stars!
-            </option>
-            <option value="option5">
-              Perfect fit! Highly satisfied!
-            </option>
+            <option value="option4">Incredible value! 5 stars!</option>
+            <option value="option5">Perfect fit! Highly satisfied!</option>
           </select>
         </div>
       </div>

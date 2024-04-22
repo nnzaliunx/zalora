@@ -15,7 +15,7 @@ const TaskCard = ({ token }) => {
   const [balance, setBalance] = useState(20);
   const [earned, setEarned] = useState(0);
   const [loading, setLoading] = useState(false);
-  const frozen = 0;
+  const [frozen, setFrozen] = useState(0);
 
   // Function to get current user's ID
   async function getCurrentUserID() {
@@ -51,6 +51,7 @@ const TaskCard = ({ token }) => {
       setBalance(userData.balance.toFixed(2));
       setOrderCount(userData.task_completed);
       setEarned(userData.earned_amount.toFixed(2));
+      setFrozen(userData.frozen_balance);
       setLoading(false);
     }
   }, [userData]);
@@ -94,9 +95,40 @@ const TaskCard = ({ token }) => {
     setInnerModal(false);
   }
 
-  function handleConfirm() {
+  async function saveUserData(balance, frozen, userId) {
+    try {
+      const { error: saveError } = await supabase.from("user_data").upsert({
+        user_id: userId,
+        balance: balance,
+        frozen_balance: frozen,
+      });
+
+      if (saveError) {
+        throw saveError;
+      }
+
+      console.log("User data saved successfully.");
+    } catch (error) {
+      console.error("Error saving user data:", error.message);
+    }
+  }
+
+  async function handleConfirm() {
     setInnerModal(false);
     setShowModal(false);
+    const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
+    const userId = token.user.id;
+
+    // Using the updated balance and frozen values
+    const updatedFrozen = balance;
+    const updatedBalance = balance - storedProduct.price;
+
+    // Saving the updated user data
+    saveUserData(updatedBalance, updatedFrozen, userId);
+
+    // // Updating the component state with the new values
+    // setFrozen(updatedFrozen);
+    // setBalance(updatedBalance);
   }
 
   // Callback function to update order count
@@ -133,7 +165,7 @@ const TaskCard = ({ token }) => {
               </div>
               <div>
                 <p className=" flex items-center justify-end  text-base">
-                  <FaDollarSign /> {frozen.toFixed(2)}
+                  <FaDollarSign /> {frozen}
                 </p>
                 <p>Frozen amount</p>
               </div>
