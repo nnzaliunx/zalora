@@ -172,6 +172,7 @@ const TaskCard = ({ token }) => {
                         orderCount={orderCount}
                         updateOrderCount={updateOrderCount}
                         setEarned={setEarned}
+                        earned={earned}
                         balance={balance}
                         setBalance={setBalance}
                         setLoading={setLoading}

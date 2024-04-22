@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import data from "../../data";
 import { supabase } from "../../supabase";
@@ -9,43 +9,65 @@ const ProductTask = ({
   orderCount,
   updateOrderCount,
   setEarned,
+ 
   balance,
   setBalance,
   token,
 }) => {
-  // Function to generate random product data
-  const getRandomProduct = (balance) => {
-    let filteredData;
-    if (balance > 0) {
-      // Filter data to get products with price less than balance
-      filteredData = data.filter((item) => item.price < balance);
-    } else {
-      // Filter data to get products with price less than 20
-      filteredData = data.filter((item) => item.price < 20);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  console.log(orderCount)
+
+ // Function to generate random product data
+const getRandomProduct = (balance, orderCount) => {
+  let filteredData;
+  // Filter data to get products with price less than balance
+  if (balance > 0) {
+    filteredData = data.filter((item) => item.price < balance);
+  } else {
+    filteredData = data.filter((item) => item.price < 20);
+  }
+
+  // If orderCount is 5 and there are products with price greater than balance,
+  // select a random product from those
+  if (orderCount === 5) {
+    const productsGreaterThanBalance = data.filter((item) => item.price > balance);
+    if (productsGreaterThanBalance.length > 0) {
+      filteredData = productsGreaterThanBalance;
     }
-    if (filteredData.length > 0) {
-      const randomIndex = Math.floor(Math.random() * filteredData.length);
-      return filteredData[randomIndex];
-    } else {
-      // If filteredData is empty, return null or handle accordingly
-      return null;
-    }
-  };
-  const [randomProduct, setRandomProduct] = useState(getRandomProduct(balance));
+  }
+
+  // If no products are found after filtering, return null
+  if (filteredData.length === 0) {
+    return null;
+  }
+
+  // Select a random product from the filteredData
+  const randomIndex = Math.floor(Math.random() * filteredData.length);
+  return filteredData[randomIndex];
+};
+
 
   useEffect(() => {
-    // Update randomProduct when TaskCard re-renders
-    setRandomProduct(getRandomProduct());
-  }, [orderCount]);
-
-  const name = randomProduct.name;
-  const price = randomProduct.price;
-  const quantity = randomProduct.quantity;
-  const image = randomProduct.image;
-  const unitPrice = (price / quantity).toFixed(2);
-  const commission = (price * 0.01).toFixed(2);
-
-  const earned = commission;
+    // Check if current product exists in localStorage
+    const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
+    if (storedProduct) {
+      setCurrentProduct(storedProduct);
+    } else {
+      // Otherwise, generate a new random product
+      let newProduct;
+      if (orderCount === 5) {
+        // If orderCount is 5, filter products with price greater than balance
+        newProduct = getRandomProduct(balance, orderCount);
+      } else {
+        // For other order counts, filter products with price less than balance
+        newProduct = getRandomProduct(balance);
+      }
+      setCurrentProduct(newProduct);
+      // Save the new product to localStorage
+      localStorage.setItem("currentProduct", JSON.stringify(newProduct));
+    }
+  }, [balance, orderCount]);
+  
 
   async function saveUserData(userId, earned, balance, count, email, fullName) {
     try {
@@ -105,11 +127,17 @@ const ProductTask = ({
       console.error("Error saving user data:", error.message);
     }
   }
-
-  // Modal Close
+  const earned = currentProduct
+    ? (currentProduct.price * 0.01).toFixed(2)
+    : "";
   const handleConfirm = async () => {
-    setShowModal(false);
     try {
+      if (balance < currentProduct.price) {
+        alert("Not enough balance. Please recharge.");
+        return;
+      }
+
+      setShowModal(false);
       setLoading(true);
       const userId = token.user.id;
       const email = token.user.email;
@@ -120,7 +148,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName,
+        fullName
       );
 
       // Update order count in TaskCard component
@@ -149,32 +177,44 @@ const ProductTask = ({
   return (
     <>
       <h3 className="font-bold text-lg">Order task</h3>
-      <p className="py-4 text-center text-sm font-semibold">{name}</p>
-      <img src={image} alt={name} className="rounded-box h-24 mb-4" />
+      <p className="py-4 text-center text-sm font-semibold">
+        {currentProduct ? currentProduct.name : "Loading..."}
+      </p>
+      <img
+        src={currentProduct ? currentProduct.image : ""}
+        alt={currentProduct ? currentProduct.name : ""}
+        className="rounded-box h-24 mb-4"
+      />
       <div className="details">
         <div className="detail flex items-center mb-2">
           <p>Unit Price:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {unitPrice}
+            {currentProduct
+              ? (currentProduct.price / currentProduct.quantity).toFixed(2)
+              : ""}
           </p>
         </div>
         <div className="detail flex items-center mb-2">
           <p>Order Quantity:</p>
-          <p className="text-end">{quantity}</p>
+          <p className="text-end">
+            {currentProduct ? currentProduct.quantity : ""}
+          </p>
         </div>
         <div className="detail flex items-center mb-2">
           <p>Total:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {price}
+            {currentProduct ? currentProduct.price : ""}
           </p>
         </div>
         <div className="detail flex items-center mb-2">
           <p>Commission:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {commission}
+            {currentProduct
+              ? (currentProduct.price * 0.01).toFixed(2)
+              : ""}
           </p>
         </div>
       </div>
@@ -194,11 +234,17 @@ const ProductTask = ({
           </div>
           <p className="text-sm">Select Your Reviews:</p>
           <select className="select select-primary w-full max-w-xs">
-            <option value="option1">Amazing product! Highly recommend!</option>
+            <option value="option1">
+              Amazing product! Highly recommend!
+            </option>
             <option value="option2">Love it! Great quality!</option>
             <option value="option3">Impressive! Must-have item!</option>
-            <option value="option4">Incredible value! 5 stars!</option>
-            <option value="option5">Perfect fit! Highly satisfied!</option>
+            <option value="option4">
+              Incredible value! 5 stars!
+            </option>
+            <option value="option5">
+              Perfect fit! Highly satisfied!
+            </option>
           </select>
         </div>
       </div>
