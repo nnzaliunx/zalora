@@ -16,7 +16,7 @@ const TaskCard = ({ token }) => {
   const [earned, setEarned] = useState(0);
   const [loading, setLoading] = useState(false);
   const [frozen, setFrozen] = useState(0);
-
+  const [dataSaved, setDataSaved] = useState(false);
   // Function to get current user's ID
   async function getCurrentUserID() {
     try {
@@ -113,22 +113,36 @@ const TaskCard = ({ token }) => {
     }
   }
 
+  useEffect(() => {
+    const savedFlag = localStorage.getItem("dataSaved");
+    if (savedFlag === "true") {
+      setDataSaved(true);
+    }
+    console.log(savedFlag);
+  }, []);
+
   async function handleConfirm() {
     setInnerModal(false);
     setShowModal(false);
-    const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
-    const userId = token.user.id;
+    if (!dataSaved) {
+      const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
+      const userId = token.user.id;
 
-    // Using the updated balance and frozen values
-    const updatedFrozen = balance;
-    const updatedBalance = balance - storedProduct.price;
+      // Using the updated balance and frozen values
+      const updatedFrozen = balance;
+      const updatedBalance = balance - storedProduct.price;
 
-    // Saving the updated user data
-    saveUserData(updatedBalance, updatedFrozen, userId);
+      // Saving the updated user data
+      saveUserData(updatedBalance, updatedFrozen, userId);
 
-    // // Updating the component state with the new values
-    // setFrozen(updatedFrozen);
-    // setBalance(updatedBalance);
+      // Set dataSaved to true to indicate that data has been saved
+      setDataSaved(true);
+      // Store the flag in localStorage
+      localStorage.setItem("dataSaved", "true");
+
+      // Reload the page after the data is saved
+      window.location.reload();
+    }
   }
 
   // Callback function to update order count
