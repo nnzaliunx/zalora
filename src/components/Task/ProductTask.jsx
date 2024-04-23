@@ -18,59 +18,82 @@ const ProductTask = ({
   const getRandomProduct = (balance, orderCount) => {
     let filteredData;
 
-    // Filter data to get products with price less than balance
+    // Filter products based on balance
     if (balance > 0) {
-      filteredData = data.filter((item) => item.price < balance);
+      // Filter products with prices less than or equal to the balance
+      filteredData = data.filter((product) => product.price <= balance);
     } else {
-      filteredData = data.filter((item) => item.price < 20);
+      // If balance is 0 or negative, use a default max price or filter products with prices less than or equal to 20
+      filteredData = data.filter((product) => product.price <= 20);
     }
 
-    // If orderCount is 5 and there are products with price greater than balance,
-    // select a random product from those
-    if (orderCount === 5) {
-      const productsGreaterThanBalance = data.filter(
-        (item) => item.price > balance
-      );
-      if (productsGreaterThanBalance.length > 0) {
-        filteredData = productsGreaterThanBalance;
-      } else {
-        return null; // No products meet the criteria, return null
-      }
+    // If order count is 5, filter products with prices greater than the balance
+    if (orderCount === 5 && balance > 0) {
+      filteredData = data.filter((product) => product.price > balance);
     }
 
-    // If no products are found after filtering, return null
+    // If no products meet the criteria, return null
     if (filteredData.length === 0) {
       return null;
     }
 
-    // Select a random product from the filteredData
+    // Select a random product from the filtered data
     const randomIndex = Math.floor(Math.random() * filteredData.length);
     return filteredData[randomIndex];
   };
 
+  // useEffect(() => {
+  //   // Check if current product exists in localStorage
+  //   console.log(balance, orderCount);
+  //   const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
+  //   if (storedProduct) {
+  //     setCurrentProduct(storedProduct);
+  //   } else {
+  //     // Otherwise, generate a new random product
+  //     let newProduct;
+  //     if (orderCount === 5 && balance > 0) {
+  //       // If orderCount is 5 and balance is positive, filter products with price greater than balance
+  //       newProduct = getRandomProduct(balance, orderCount);
+  //     } else {
+  //       // For other order counts or zero/negative balance, filter products with price less than or equal to balance
+  //       newProduct = getRandomProduct(balance, orderCount);
+  //     }
+  //     console.log(newProduct);
+  //     setCurrentProduct(newProduct);
+  //     // Save the new product to localStorage
+  //     localStorage.setItem("currentProduct", JSON.stringify(newProduct));
+  //   }
+
+  //   // Remove item from localStorage if orderCount is 0
+  //   if (orderCount === 0) {
+  //     localStorage.removeItem("currentProduct");
+  //   }
+  // }, [balance, orderCount]);
+
   useEffect(() => {
-    // Check if current product exists in localStorage
+    // Check if there is a product stored in localStorage
+
     const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
+
+    // If a product is stored in localStorage, use it as the current product
     if (storedProduct) {
       setCurrentProduct(storedProduct);
     } else {
-      // Otherwise, generate a new random product
       let newProduct;
+
+      // Generate a new random product only if the order count is 5
       if (orderCount === 5) {
-        // If orderCount is 5, filter products with price greater than balance
-        newProduct = getRandomProduct(balance, orderCount);
-      } else {
-        // For other order counts, filter products with price less than balance
         newProduct = getRandomProduct(balance, orderCount);
       }
-      setCurrentProduct(newProduct);
-      // Save the new product to localStorage
-      localStorage.setItem("currentProduct", JSON.stringify(newProduct));
-    }
 
-    // Remove item from localStorage if orderCount is 0
-    if (orderCount === 0) {
-      localStorage.removeItem("currentProduct");
+      // Save the new product to localStorage if it's generated
+      if (newProduct) {
+        localStorage.setItem("currentProduct", JSON.stringify(newProduct));
+        setCurrentProduct(newProduct);
+      } else {
+        localStorage.removeItem("currentProduct");
+        setCurrentProduct(getRandomProduct(balance, orderCount));
+      }
     }
   }, [balance, orderCount]);
 
@@ -151,7 +174,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName
+        fullName,
       );
 
       // Update order count in TaskCard component
