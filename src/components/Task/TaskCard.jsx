@@ -9,7 +9,7 @@ import ProductTask from "./ProductTask";
 const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
-  let orderLimit = 6;
+  let orderLimit = 20;
   const [orderCount, setOrderCount] = useState(0);
   const [userData, setUserData] = useState(null);
   const [balance, setBalance] = useState(20);

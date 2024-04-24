@@ -28,7 +28,7 @@ const ProductTask = ({
     }
 
     // If order count is 5, filter products with prices greater than the balance
-    if (orderCount === 5 && balance > 0) {
+    if (orderCount === 19) {
       filteredData = data.filter((product) => product.price > balance);
     }
 
@@ -82,7 +82,7 @@ const ProductTask = ({
       let newProduct;
 
       // Generate a new random product only if the order count is 5
-      if (orderCount === 5) {
+      if (orderCount === 19) {
         newProduct = getRandomProduct(balance, orderCount);
       }
 
@@ -155,7 +155,7 @@ const ProductTask = ({
       console.error("Error saving user data:", error.message);
     }
   }
-  const earned = currentProduct ? (currentProduct.price * 0.01).toFixed(2) : "";
+  const earned = currentProduct ? (currentProduct.price * 0.1).toFixed(2) : "";
   const handleConfirm = async () => {
     try {
       if (balance < currentProduct.price) {
@@ -238,7 +238,7 @@ const ProductTask = ({
           <p>Commission:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {currentProduct ? (currentProduct.price * 0.01).toFixed(2) : ""}
+            {currentProduct ? (currentProduct.price * 0.1).toFixed(2) : ""}
           </p>
         </div>
       </div>

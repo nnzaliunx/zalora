@@ -10,7 +10,7 @@ const data = [
   {
     id: 2,
     name: "New Arrival Large Size Dress for Women Bow-Knot Pure Color",
-    price: 19.84,
+    price: 19.99,
     image:
       "https://f.nooncdn.com/p/pzsku/Z586585A916A045718BC6Z/45/_/1704870279/5a3ac98b-1b82-404e-b800-5aada976de68.jpg?format=avif&width=240",
     quantity: 1,
@@ -18,42 +18,50 @@ const data = [
   {
     id: 3,
     name: "Leather Satchel Handbag Black",
-    price: 16.84,
+    price: 21.99,
     image:
       "https://f.nooncdn.com/p/v1616527424/N45710848A_3.jpg?format=avif&width=240",
     quantity: 1,
   },
   {
     id: 4,
-    name: "Nikicon Knot..",
-    price: 256.54,
+    name: "Men's Analog Round Shape Leather Wrist Watch",
+    price: 22.99,
     image:
-      "https://f.nooncdn.com/p/pzsku/ZCF31B064E0E4DC9FE238Z/45/_/1698168496/11861812-b39f-4c5c-84f2-e61f58cadf2c.jpg?format=avif&width=240",
-    quantity: 4,
+      "https://f.nooncdn.com/p/pnsku/N70019382V/45/_/1702892772/198b2dd4-4f36-44e8-adef-37d36b5326b7.jpg?format=avif&width=240",
+    quantity: 1,
   },
   {
     id: 5,
-    name: "Slip-On Heeled",
+    name: "Infant 3 Stripes Sport Set",
     image:
-      "https://f.nooncdn.com/p/v1632996635/N48986329V_2.jpg?format=avif&width=240",
-    price: 253.84,
+      "https://f.nooncdn.com/p/pzsku/ZA4117077F0B4C4305EC0Z/45/_/1707135788/c241d40f-00e4-4297-b00c-5d13ac7cd9b7.jpg?format=avif&width=240",
+    price: 24.99,
     quantity: 2,
   },
   {
     id: 6,
-    name: "Women's Quartz",
+    name: "Kids Jdi T-Shirt Pants Set",
     image:
-      "https://f.nooncdn.com/p/pzsku/Z9421004A0EF1EB1E67A9Z/45/_/1704264413/b5d978e5-703e-4a14-abfc-70aa60c1484e.jpg?format=avif&width=240",
-    price: 255.84,
-    quantity: 4,
+      "https://f.nooncdn.com/p/pzsku/Z32080612C47AE4B703FFZ/45/_/1699234722/8eb19711-768e-4690-929d-422f170ab5ba.jpg?format=avif&width=240",
+    price: 26.99,
+    quantity: 3,
   },
   {
     id: 7,
-    name: "Heart-shaped",
+    name: "Star Wars Tm Luke Skywalker’s Landspeeder",
     image:
-      "https://f.nooncdn.com/p/pzsku/Z9421004A0EF1EB1E67A9Z/45/_/1704264413/b5d978e5-703e-4a14-abfc-70aa60c1484e.jpg?format=avif&width=240",
-    price: 252.84,
-    quantity: 6,
+      "https://f.nooncdn.com/p/pzsku/Z744C10A5425F77E1B0A5Z/45/_/1666972697/4d39aca4-2757-44cc-9465-755f86c7d5b1.jpg?format=avif&width=240",
+    price: 28.99,
+    quantity: 2,
+  },
+  {
+    id: 8,
+    name: "Classic Large Creative Brick Box Building Toy",
+    image:
+      "https://f.nooncdn.com/p/pnsku/N20035870A/45/_/1698826504/0dabfcfb-8763-46cb-85bb-ab2da5d9e15b.jpg?format=avif&width=240",
+    price: 30.99,
+    quantity: 2,
   },
 ];
 export default data;
