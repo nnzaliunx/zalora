@@ -60,7 +60,7 @@ const data = [
     name: "Classic Large Creative Brick Box Building Toy",
     image:
       "https://f.nooncdn.com/p/pnsku/N20035870A/45/_/1698826504/0dabfcfb-8763-46cb-85bb-ab2da5d9e15b.jpg?format=avif&width=240",
-    price: 30.99,
+    price: 60.99,
     quantity: 2,
   },
 ];

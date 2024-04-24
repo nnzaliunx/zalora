@@ -14,7 +14,7 @@ const ProductTask = ({
   token,
 }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
-
+  // adject ordercount start here
   const getRandomProduct = (balance, orderCount) => {
     let filteredData;
 
@@ -28,7 +28,7 @@ const ProductTask = ({
     }
 
     // If order count is 5, filter products with prices greater than the balance
-    if (orderCount === 19) {
+    if (orderCount === 6) {
       filteredData = data.filter((product) => product.price > balance);
     }
 
@@ -42,47 +42,19 @@ const ProductTask = ({
     return filteredData[randomIndex];
   };
 
-  // useEffect(() => {
-  //   // Check if current product exists in localStorage
-  //   console.log(balance, orderCount);
-  //   const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
-  //   if (storedProduct) {
-  //     setCurrentProduct(storedProduct);
-  //   } else {
-  //     // Otherwise, generate a new random product
-  //     let newProduct;
-  //     if (orderCount === 5 && balance > 0) {
-  //       // If orderCount is 5 and balance is positive, filter products with price greater than balance
-  //       newProduct = getRandomProduct(balance, orderCount);
-  //     } else {
-  //       // For other order counts or zero/negative balance, filter products with price less than or equal to balance
-  //       newProduct = getRandomProduct(balance, orderCount);
-  //     }
-  //     console.log(newProduct);
-  //     setCurrentProduct(newProduct);
-  //     // Save the new product to localStorage
-  //     localStorage.setItem("currentProduct", JSON.stringify(newProduct));
-  //   }
-
-  //   // Remove item from localStorage if orderCount is 0
-  //   if (orderCount === 0) {
-  //     localStorage.removeItem("currentProduct");
-  //   }
-  // }, [balance, orderCount]);
-
   useEffect(() => {
     // Check if there is a product stored in localStorage
 
     const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
 
     // If a product is stored in localStorage, use it as the current product
-    if (storedProduct) {
+    if (storedProduct && orderCount === 6) {
       setCurrentProduct(storedProduct);
     } else {
       let newProduct;
 
       // Generate a new random product only if the order count is 5
-      if (orderCount === 19) {
+      if (orderCount === 6) {
         newProduct = getRandomProduct(balance, orderCount);
       }
 
@@ -90,13 +62,15 @@ const ProductTask = ({
       if (newProduct) {
         localStorage.setItem("currentProduct", JSON.stringify(newProduct));
         setCurrentProduct(newProduct);
-      } else {
+      }
+      if (orderCount !== 6) {
         localStorage.removeItem("currentProduct");
+        localStorage.removeItem("dataSaved");
         setCurrentProduct(getRandomProduct(balance, orderCount));
       }
     }
   }, [balance, orderCount]);
-
+  // end here
   async function saveUserData(userId, earned, balance, count, email, fullName) {
     try {
       // Check if user data already exists
@@ -174,7 +148,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName,
+        fullName
       );
 
       // Update order count in TaskCard component
