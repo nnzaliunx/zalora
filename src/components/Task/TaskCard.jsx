@@ -77,7 +77,7 @@ const TaskCard = ({ token }) => {
         setUserData(data);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error.message);
+      console.log("Error fetching user data:", error.message);
       setLoading(false); // Set loading to false in case of error
     }
   }
@@ -115,15 +115,13 @@ const TaskCard = ({ token }) => {
 
   useEffect(() => {
     const savedFlag = localStorage.getItem("dataSaved");
-    if (savedFlag === "true") {
+    if (savedFlag) {
       setDataSaved(true);
     }
-    console.log(savedFlag);
+    console.log(dataSaved);
   }, []);
 
   async function handleConfirm() {
-    setInnerModal(false);
-    setShowModal(false);
     if (!dataSaved) {
       const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
       const userId = token.user.id;
@@ -142,7 +140,12 @@ const TaskCard = ({ token }) => {
 
       // Reload the page after the data is saved
       window.location.reload();
+    } else {
+      setInnerModal(false);
+      setShowModal(false);
     }
+    setInnerModal(false);
+    setShowModal(false);
   }
 
   // Callback function to update order count

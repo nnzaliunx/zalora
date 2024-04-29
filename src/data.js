@@ -116,7 +116,7 @@ const data = [
     name: "Braking Folding Electric Scooter",
     image:
       "https://f.nooncdn.com/p/v1538035642/N17874181A_2.jpg?format=avif&width=240",
-    price: 80.49,
+    price: 120.49,
     quantity: 1,
   },
 ];

@@ -28,7 +28,7 @@ const ProductTask = ({
     }
 
     // If order count is 5, filter products with prices greater than the balance
-    if (orderCount === 6) {
+    if (orderCount === 11) {
       filteredData = data.filter((product) => product.price > balance);
     }
 
@@ -48,13 +48,13 @@ const ProductTask = ({
     const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
 
     // If a product is stored in localStorage, use it as the current product
-    if (storedProduct && orderCount === 6) {
+    if (storedProduct && orderCount === 11) {
       setCurrentProduct(storedProduct);
     } else {
       let newProduct;
 
       // Generate a new random product only if the order count is 5
-      if (orderCount === 6) {
+      if (orderCount === 11) {
         newProduct = getRandomProduct(balance, orderCount);
       }
 
@@ -63,7 +63,7 @@ const ProductTask = ({
         localStorage.setItem("currentProduct", JSON.stringify(newProduct));
         setCurrentProduct(newProduct);
       }
-      if (orderCount !== 6) {
+      if (orderCount !== 11) {
         localStorage.removeItem("currentProduct");
         localStorage.removeItem("dataSaved");
         setCurrentProduct(getRandomProduct(balance, orderCount));
@@ -148,7 +148,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName
+        fullName,
       );
 
       // Update order count in TaskCard component
