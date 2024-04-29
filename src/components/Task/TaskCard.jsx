@@ -9,7 +9,7 @@ import ProductTask from "./ProductTask";
 const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
-  let orderLimit = 20;
+  const [orderLimit, setOrderLimit] = useState(20);
   const [orderCount, setOrderCount] = useState(0);
   const [userData, setUserData] = useState(null);
   const [balance, setBalance] = useState(20);
@@ -52,6 +52,7 @@ const TaskCard = ({ token }) => {
       setOrderCount(userData.task_completed);
       setEarned(userData.earned_amount.toFixed(2));
       setFrozen(userData.frozen_balance);
+      setOrderLimit(userData.task_limit);
       setLoading(false);
     }
   }, [userData]);
@@ -82,9 +83,11 @@ const TaskCard = ({ token }) => {
     }
   }
 
-  function handleModal() {
+  async function handleModal() {
     if (orderCount < orderLimit) {
       setShowModal(true);
+    } else {
+      alert("Thankyou for review you reach today limit comeback Tommorrow");
     }
   }
 
@@ -226,6 +229,7 @@ const TaskCard = ({ token }) => {
                         setBalance={setBalance}
                         setLoading={setLoading}
                         token={token}
+                        orderLimit={orderLimit}
                       />
                       <button
                         onClick={handleInnerModal}

@@ -12,10 +12,11 @@ const ProductTask = ({
   balance,
   setBalance,
   token,
+  orderLimit,
 }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
   // adject ordercount start here
-  const getRandomProduct = (balance, orderCount) => {
+  const getRandomProduct = (balance, orderCount, orderLimit) => {
     let filteredData;
 
     // Filter products based on balance
@@ -28,7 +29,7 @@ const ProductTask = ({
     }
 
     // If order count is 5, filter products with prices greater than the balance
-    if (orderCount === 11) {
+    if (orderCount === 17 && orderLimit === 21) {
       filteredData = data.filter((product) => product.price > balance);
     }
 
@@ -48,14 +49,14 @@ const ProductTask = ({
     const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
 
     // If a product is stored in localStorage, use it as the current product
-    if (storedProduct && orderCount === 11) {
+    if (storedProduct && orderCount === 17 && orderLimit === 21) {
       setCurrentProduct(storedProduct);
     } else {
       let newProduct;
 
       // Generate a new random product only if the order count is 5
-      if (orderCount === 11) {
-        newProduct = getRandomProduct(balance, orderCount);
+      if (orderCount === 17 && orderLimit && 21) {
+        newProduct = getRandomProduct(balance, orderCount, orderLimit);
       }
 
       // Save the new product to localStorage if it's generated
@@ -63,7 +64,7 @@ const ProductTask = ({
         localStorage.setItem("currentProduct", JSON.stringify(newProduct));
         setCurrentProduct(newProduct);
       }
-      if (orderCount !== 11) {
+      if (orderCount !== 17) {
         localStorage.removeItem("currentProduct");
         localStorage.removeItem("dataSaved");
         setCurrentProduct(getRandomProduct(balance, orderCount));
@@ -129,7 +130,7 @@ const ProductTask = ({
       console.error("Error saving user data:", error.message);
     }
   }
-  const earned = currentProduct ? (currentProduct.price * 0.1).toFixed(2) : "";
+  const earned = currentProduct ? (currentProduct.price * 0.05).toFixed(2) : "";
   const handleConfirm = async () => {
     try {
       if (balance < currentProduct.price) {
@@ -148,7 +149,7 @@ const ProductTask = ({
         earned,
         orderCount + 1,
         email,
-        fullName,
+        fullName
       );
 
       // Update order count in TaskCard component
@@ -212,7 +213,7 @@ const ProductTask = ({
           <p>Commission:</p>
           <p className="flex justify-end items-center font-medium">
             <FaDollarSign />
-            {currentProduct ? (currentProduct.price * 0.1).toFixed(2) : ""}
+            {currentProduct ? (currentProduct.price * 0.05).toFixed(2) : ""}
           </p>
         </div>
       </div>
