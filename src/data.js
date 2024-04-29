@@ -63,5 +63,61 @@ const data = [
     price: 60.99,
     quantity: 2,
   },
+  {
+    id: 9,
+    name: "Bona Fide Compression Shirts for Women – Long/Short Sleeve Women’s",
+    image:
+      "https://f.nooncdn.com/p/pzsku/Z4C9F1BC9E9B04469A2F9Z/45/_/1702369119/5b2d3856-308c-4b46-ae0f-e03e5b3bcf44.jpg?format=avif&width=240",
+    price: 32.49,
+    quantity: 1,
+  },
+  {
+    id: 10,
+    name: "Waist Biker Shorts for Women with Push Up - Womens Shorts",
+    image:
+      "https://f.nooncdn.com/p/pzsku/ZE0DC8D5EAA32D4AEA588Z/45/_/1708951878/4f070b2d-835a-45ee-bd93-ae51529a67fe.jpg?format=avif&width=240",
+    price: 34.49,
+    quantity: 3,
+  },
+  {
+    id: 11,
+    name: "Linear Leggings",
+    image:
+      "https://f.nooncdn.com/p/pzsku/Z55D7306F954319D23B40Z/45/_/1694784524/8047e8fb-8551-4459-b71e-93165354deaa.jpg?format=avif&width=240",
+    price: 35.99,
+    quantity: 2,
+  },
+  {
+    id: 12,
+    name: "Sandwich Maker + Grill Maker + Waffle Maker Non-Stick 2 Slot",
+    image:
+      "https://f.nooncdn.com/p/v1677583876/N11426652A_1.jpg?format=avif&width=240",
+    price: 37.99,
+    quantity: 1,
+  },
+  {
+    id: 13,
+    name: "Watch Ultra 2 GPS + Cellular, 49mm Titanium Case With Blue",
+    image:
+      "https://f.nooncdn.com/p/pnsku/N53437376A/45/_/1694677786/8215864f-cb94-49c9-9f28-798cdf117dc0.jpg?format=avif&width=240",
+    price: 39.99,
+    quantity: 1,
+  },
+  {
+    id: 14,
+    name: "Eau De Cologne Refereshing And Delicate For Baby Skin 0M+ 100Ml",
+    image:
+      "https://f.nooncdn.com/p/v1665495086/N53356740A_1.jpg?format=avif&width=240",
+    price: 42.49,
+    quantity: 2,
+  },
+  {
+    id: 15,
+    name: "Braking Folding Electric Scooter",
+    image:
+      "https://f.nooncdn.com/p/v1538035642/N17874181A_2.jpg?format=avif&width=240",
+    price: 80.49,
+    quantity: 1,
+  },
 ];
 export default data;
