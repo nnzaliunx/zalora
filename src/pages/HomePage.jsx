@@ -21,7 +21,7 @@ const HomePage = () => {
         <HandSlider />
         <Link
           to="/task"
-          className="btn bg-black rounded-full hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
+          className="btn bg-indigo-700 rounded-full hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
         >
           <IconContext.Provider value={{ color: "white", size: "20px" }}>
             <MdOutlineTouchApp />

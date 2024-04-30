@@ -6,7 +6,7 @@ import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
-const TaskCard = ({ token, sendDataToParent }) => {
+const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
   const [orderLimit, setOrderLimit] = useState(20);
@@ -18,7 +18,6 @@ const TaskCard = ({ token, sendDataToParent }) => {
   const [frozen, setFrozen] = useState(0);
   const [dataSaved, setDataSaved] = useState(false);
 
-  sendDataToParent(balance, frozen);
   // Function to get current user's ID
   async function getCurrentUserID() {
     try {
@@ -90,7 +89,7 @@ const TaskCard = ({ token, sendDataToParent }) => {
       setShowModal(true);
     } else {
       alert(
-        "Thank you for the review. You've reached today's limit. Please come back tomorrow.",
+        "Thank you for the review. You've reached today's limit. Please come back tomorrow."
       );
     }
   }
@@ -290,13 +289,34 @@ const TaskCard = ({ token, sendDataToParent }) => {
           <h2 className="card-title text-lg mb-2">Order Description</h2>
           <ul className="list-decimal leading-relaxed text-sm mx-2">
             <li className="pb-4"> Each account can match 25 orders per day</li>
-            <li className="pb-4">The commission for placing an order is uniform and equals to 1.00% of the total order amount</li>
-            <li className="pb-4">The System is based on LBS technology and automatically matches goods through cloud computing</li>
-            <li className="pb-4">In order to prevent platform supervision, if the order is not confirmed and submitted within 30 minutes, the system will freeze the order amount</li>
-            <li className="pb-4">You cannot cancel the task. You must first complete any existing unfinished tasks before you can receive new ones.</li>
+            <li className="pb-4">
+              The commission for placing an order is uniform and equals to 1.00%
+              of the total order amount
+            </li>
+            <li className="pb-4">
+              The System is based on LBS technology and automatically matches
+              goods through cloud computing
+            </li>
+            <li className="pb-4">
+              In order to prevent platform supervision, if the order is not
+              confirmed and submitted within 30 minutes, the system will freeze
+              the order amount
+            </li>
+            <li className="pb-4">
+              You cannot cancel the task. You must first complete any existing
+              unfinished tasks before you can receive new ones.
+            </li>
           </ul>
           <h2 className="card-title text-lg mb-2">Notice</h2>
-          <p className="leading-loose text-sm mb-16">When the platform matches orders for users, it will submit the order information to the merchant background. if the user does not submit the order within 30 minutes, the order amount will be frozen by the system. in order to avoid regulatory stytems, user accounts will be evaluated, which will directly affect the user's next matching time and reputation!. Please click stop placing order in time to avoid timeout freeze.</p>
+          <p className="leading-loose text-sm mb-16">
+            When the platform matches orders for users, it will submit the order
+            information to the merchant background. if the user does not submit
+            the order within 30 minutes, the order amount will be frozen by the
+            system. in order to avoid regulatory stytems, user accounts will be
+            evaluated, which will directly affect the user's next matching time
+            and reputation!. Please click stop placing order in time to avoid
+            timeout freeze.
+          </p>
         </div>
       </div>
     </>
