@@ -134,7 +134,7 @@ const ProductTask = ({
   const handleConfirm = async () => {
     try {
       if (balance < currentProduct.price) {
-        alert("Not enough balance. Please recharge.");
+        alert("Not enough balance.");
         return;
       }
 

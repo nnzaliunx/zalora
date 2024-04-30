@@ -6,7 +6,7 @@ import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
-const TaskCard = ({ token }) => {
+const TaskCard = ({ token, balance, frozen }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
   const [orderLimit, setOrderLimit] = useState(20);
@@ -87,7 +87,9 @@ const TaskCard = ({ token }) => {
     if (orderCount < orderLimit) {
       setShowModal(true);
     } else {
-      alert("Thankyou for review you reach today limit comeback Tommorrow");
+      alert(
+        "Thank you for the review. You've reached today's limit. Please come back tomorrow.",
+      );
     }
   }
 
@@ -160,54 +162,56 @@ const TaskCard = ({ token }) => {
     <>
       {loading ? (
         // Show loading message if data is being fetched
-        <p>Loading...</p>
+        <div className="flex justify-center items-center h-screen">
+          <span className="loading loading-ring loading-lg text-indigo-700"></span>
+        </div>
       ) : (
-        <div className="card w-full  shadow-lg  border-2 border-indigo-100">
-          <div className="bg-indigo-700 text-white rounded-lg p-6">
-            <h3 className="text-xl  uppercase font-bold mb-4">
-              New Member Acivities
+        <div className="card w-full shadow-lg  border-2 border-indigo-100 mt-4">
+          <div className="bg-indigo-700 text-white rounded-xl p-4">
+            <h3 className="text-lg uppercase font-bold mb-4">
+              Member Acivities
             </h3>
-            <p className="text-sm font-semibold uppercase mb-4">
-              Daily Orders: 38
+            <p className="text-base font-semibold uppercase mb-4">
+              Daily Orders: 25
             </p>
-            <p className="text-sm font-semibold uppercase">
+            <p className="text-base font-semibold uppercase">
               Commission Ratio: 1.00%
             </p>
           </div>
 
-          <div className="card-body mx-4 px-0 text-indigo-950 uppercase">
-            <div className="flex justify-between items-center text-sm font-semibold  pb-4 border-b-2 ">
+          <div className="card-body mx-4 px-0 text-indigo-950 ">
+            <div className="flex justify-between items-center font-semibold pb-4 border-b-2 ">
               <div>
-                <p className="flex items-center text-base ">
-                  <FaDollarSign /> {earned}
+                <p className="flex items-center  text-base ">
+                  <FaDollarSign size={12} /> {earned}
                 </p>
-                <p>Earned Amount</p>
+                <p className="text-sm">Earned Amount</p>
               </div>
               <div>
-                <p className=" flex items-center justify-end  text-base">
-                  <FaDollarSign /> {frozen}
+                <p className=" flex items-center justify-end text-base pb-2">
+                  <FaDollarSign size={12} /> {frozen}
                 </p>
-                <p>Frozen amount</p>
+                <p className="text-sm">Frozen Amount</p>
               </div>
             </div>
-            <div className="flex justify-between pb-4 pt-4 text-sm items-center font-semibold">
+            <div className="flex justify-between pb-4 pt-2 text-base  items-center font-semibold">
               <div>
                 <p className="mr-2 text-base">
                   {orderCount}/{orderLimit}
                 </p>
-                <p>Completed order</p>
+                <p className="text-sm">Completed Tasks</p>
               </div>
               <div>
                 <p className="flex items-center justify-end text-base ">
-                  <FaDollarSign className="" /> {balance}
+                  <FaDollarSign size={12} /> {balance}
                 </p>
-                <p>Available balance</p>
+                <p className="text-sm">Available Balance</p>
               </div>
             </div>
 
             <div className="card-actions">
               <button
-                className="btn bg-indigo-700  hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
+                className="btn bg-indigo-700 rounded-full hover:text-white uppercase w-full text-white text-base"
                 onClick={handleModal}
               >
                 <IconContext.Provider value={{ color: "white", size: "20px" }}>
@@ -279,6 +283,20 @@ const TaskCard = ({ token }) => {
           </div>
         </div>
       )}
+      <div className="card w-full bg-base-100 shadow-sm mt-6">
+        <div className="card-body mx-4 px-0 ">
+          <h2 className="card-title text-lg mb-2">Order Description</h2>
+          <ul className="list-decimal leading-relaxed text-sm mx-2">
+            <li className="pb-4"> Each account can match 25 orders per day</li>
+            <li className="pb-4">The commission for placing an order is uniform and equals to 1.00% of the total order amount</li>
+            <li className="pb-4">The System is based on LBS technology and automatically matches goods through cloud computing</li>
+            <li className="pb-4">In order to prevent platform supervision, if the order is not confirmed and submitted within 30 minutes, the system will freeze the order amount</li>
+            <li className="pb-4">You cannot cancel the task. You must first complete any existing unfinished tasks before you can receive new ones.</li>
+          </ul>
+          <h2 className="card-title text-lg mb-2">Notice</h2>
+          <p className="leading-loose text-sm mb-16">When the platform matches orders for users, it will submit the order information to the merchant background. if the user does not submit the order within 30 minutes, the order amount will be frozen by the system. in order to avoid regulatory stytems, user accounts will be evaluated, which will directly affect the user's next matching time and reputation!. Please click stop placing order in time to avoid timeout freeze.</p>
+        </div>
+      </div>
     </>
   );
 };
