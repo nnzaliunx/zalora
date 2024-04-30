@@ -6,7 +6,7 @@ import { supabase } from "../../supabase";
 
 import ProductTask from "./ProductTask";
 
-const TaskCard = ({ token, balance, frozen }) => {
+const TaskCard = ({ token, sendDataToParent }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
   const [orderLimit, setOrderLimit] = useState(20);
@@ -17,6 +17,8 @@ const TaskCard = ({ token, balance, frozen }) => {
   const [loading, setLoading] = useState(false);
   const [frozen, setFrozen] = useState(0);
   const [dataSaved, setDataSaved] = useState(false);
+
+  sendDataToParent(balance, frozen);
   // Function to get current user's ID
   async function getCurrentUserID() {
     try {

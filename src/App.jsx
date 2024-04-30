@@ -13,8 +13,8 @@ import ProfilePage from "./pages/ProfilePage";
 const App = () => {
   let navigate = useNavigate();
   const [token, setToken] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [frozen, setFrozen] = useState(0)
+  const [taskBalance, setTaskBalance] = useState(0);
+  const [taskFrozen, setTaskFrozen] = useState(0)
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       let data = JSON.parse(sessionStorage.getItem("token"));
@@ -35,7 +35,7 @@ const App = () => {
       {token && (
         <Route path="/" element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/task" element={<TaskPage token={token} balance={balance} frozen={frozen}/>} />
+          <Route path="/task" element={<TaskPage token={token} />} />
           <Route path="/service" element={<ServicePage />} />
           <Route path="/profile" element={<ProfilePage token={token} />} />
         </Route>
