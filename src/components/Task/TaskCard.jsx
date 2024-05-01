@@ -9,7 +9,7 @@ import ProductTask from "./ProductTask";
 const TaskCard = ({ token }) => {
   const [showModal, setShowModal] = useState(false);
   const [showInnerModal, setInnerModal] = useState(false);
-  const [orderLimit, setOrderLimit] = useState(20);
+  const [orderLimit, setOrderLimit] = useState(28);
   const [orderCount, setOrderCount] = useState(0);
   const [userData, setUserData] = useState(null);
   const [balance, setBalance] = useState(20);
@@ -89,7 +89,7 @@ const TaskCard = ({ token }) => {
       setShowModal(true);
     } else {
       alert(
-        "Thank you for the review. You've reached today's limit. Please come back tomorrow."
+        "Thank you for the review. You've reached today's limit. Please come back tomorrow.",
       );
     }
   }
@@ -112,8 +112,6 @@ const TaskCard = ({ token }) => {
       if (saveError) {
         throw saveError;
       }
-
-      console.log("User data saved successfully.");
     } catch (error) {
       console.error("Error saving user data:", error.message);
     }
@@ -124,7 +122,6 @@ const TaskCard = ({ token }) => {
     if (savedFlag) {
       setDataSaved(true);
     }
-    console.log(dataSaved);
   }, []);
 
   async function handleConfirm() {
@@ -173,7 +170,7 @@ const TaskCard = ({ token }) => {
               Member Acivities
             </h3>
             <p className="text-base font-semibold uppercase mb-4">
-              Daily Orders: 25
+              New Member Order Limit: 28
             </p>
             <p className="text-base font-semibold uppercase">
               Commission Ratio: 1.00%
@@ -288,7 +285,11 @@ const TaskCard = ({ token }) => {
         <div className="card-body mx-4 px-0 ">
           <h2 className="card-title text-lg mb-2">Order Description</h2>
           <ul className="list-decimal leading-relaxed text-sm mx-2">
-            <li className="pb-4"> Each account can match 25 orders per day</li>
+            <li className="pb-4">
+              {" "}
+              On the new member's first day, the order limit is 28. The next
+              day, the order limit increases by 1.
+            </li>
             <li className="pb-4">
               The commission for placing an order is uniform and equals to 1.00%
               of the total order amount

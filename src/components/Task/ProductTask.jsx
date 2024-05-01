@@ -29,7 +29,7 @@ const ProductTask = ({
     }
 
     // If order count is 5, filter products with prices greater than the balance
-    if (orderCount === 17 && orderLimit === 21) {
+    if (orderCount === 23 && orderLimit === 29) {
       filteredData = data.filter((product) => product.price > balance);
     }
 
@@ -49,13 +49,13 @@ const ProductTask = ({
     const storedProduct = JSON.parse(localStorage.getItem("currentProduct"));
 
     // If a product is stored in localStorage, use it as the current product
-    if (storedProduct && orderCount === 17 && orderLimit === 21) {
+    if (storedProduct && orderCount === 23 && orderLimit === 29) {
       setCurrentProduct(storedProduct);
     } else {
       let newProduct;
 
       // Generate a new random product only if the order count is 5
-      if (orderCount === 17 && orderLimit && 21) {
+      if (orderCount === 23 && orderLimit && 29) {
         newProduct = getRandomProduct(balance, orderCount, orderLimit);
       }
 
@@ -64,7 +64,7 @@ const ProductTask = ({
         localStorage.setItem("currentProduct", JSON.stringify(newProduct));
         setCurrentProduct(newProduct);
       }
-      if (orderCount !== 17) {
+      if (orderCount !== 23) {
         localStorage.removeItem("currentProduct");
         localStorage.removeItem("dataSaved");
         setCurrentProduct(getRandomProduct(balance, orderCount));
@@ -124,8 +124,6 @@ const ProductTask = ({
       if (saveError) {
         throw saveError;
       }
-
-      console.log("User data saved successfully.");
     } catch (error) {
       console.error("Error saving user data:", error.message);
     }

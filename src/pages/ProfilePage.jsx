@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { IconContext } from "react-icons";
-import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
@@ -10,7 +9,7 @@ const ProfilePage = ({ token }) => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const [balance, setBalance] = useState(0);
-  const [frozen, setFrozen] = useState(0)
+  const [frozen, setFrozen] = useState(0);
   const navigate = useNavigate();
   function handleLogOut() {
     sessionStorage.removeItem("token");
@@ -55,6 +54,10 @@ const ProfilePage = ({ token }) => {
     }
   }
 
+  function handlewithdrawal() {
+    alert("Minimum withdrawal amount is $100.00.");
+  }
+
   return (
     <>
       {loading ? (
@@ -63,32 +66,38 @@ const ProfilePage = ({ token }) => {
           <span className="loading loading-ring loading-lg text-indigo-700"></span>
         </div>
       ) : (
-        <div className="max-w-2xl mx-auto px-4 pt-24  bg-white text-black">
-          <div className="flex flex-col mx-2 pb-6">
-            <div className="flex items-center justify-between ">
+        <div className="max-w-2xl mx-auto pt-24 pb-20  bg-white text-black">
+          <div className="flex flex-col pb-4">
+            <div className="flex items-center justify-between">
               <div>
                 <IconContext.Provider value={{ size: "56px" }}>
                   <FaCircleUser />
                 </IconContext.Provider>
+                <p className="font-bold text-xl capitalize mt-2">
+                  {token.user.user_metadata.full_name}
+                </p>
+                <p className="text-sm text-slate-500">
+                  Invitation Code: {token.user.user_metadata.code}
+                </p>
+                <p className="text-sm text-slate-500">Credit Score: 100</p>
               </div>
               <div className="flex flex-col">
-                <button className="btn btn-primary text-white px-6 text-xs rounded-full mb-2">
+                <button
+                  onClick={handlewithdrawal}
+                  className="btn bg-indigo-700 text-white px-6 text-sm rounded-xl mb-2 uppercase"
+                >
                   Withdrawal
                 </button>
-                <button className="btn btn-primary text-white px-6 text-xs rounded-full">
-                  Deposit
+                <button
+                  onClick={handleLogOut}
+                  className="btn bg-indigo-700 text-white px-6 text-sm rounded-xl uppercase"
+                >
+                  LogOut
                 </button>
               </div>
             </div>
-            <p className="font-bold text-xl">
-              {token.user.user_metadata.full_name}
-            </p>
-            <p className="text-sm text-gray-500">
-              Invitation Code: {token.user.user_metadata.code}
-            </p>
-            <p className="text-sm text-gray-500">credit score: 100</p>
 
-            <div className="mt-6 flex bg-[#4A03FF] text-white items-center justify-between rounded-md px-6 py-4 text-sm mb-4 ">
+            <div className="mt-6 flex bg-indigo-700 text-white items-center justify-between rounded-md px-6 py-4 text-sm mb-4 ">
               <div className="border-r-2 flex-1">
                 <p>${balance}</p>
                 <p>Account Balance</p>
@@ -99,13 +108,32 @@ const ProfilePage = ({ token }) => {
               </div>
             </div>
           </div>
-
-          <button
-            className="btn bg-indigo-700  hover:text-white hover:bg-black uppercase hover:border-none w-full text-white text-base mt-4"
-            onClick={handleLogOut}
-          >
-            Logout
-          </button>
+          <div className="mx-auto bg-gray-100 px-6 divide-y text-sm ">
+            <div className="flex items-center justify-between py-4 ">
+              <p>My Account</p>
+              <MdKeyboardArrowRight />
+            </div>
+            <div className="flex items-center justify-between py-4 ">
+              <p>Bill Details</p>
+              <MdKeyboardArrowRight />
+            </div>
+            <div className="flex items-center justify-between py-4 ">
+              <p>Member Center</p>
+              <MdKeyboardArrowRight />
+            </div>
+            <div className="flex items-center justify-between py-4 ">
+              <p>Team Report</p>
+              <MdKeyboardArrowRight />
+            </div>
+            <div className="flex items-center justify-between py-4 ">
+              <p>Bind Wallet Address</p>
+              <MdKeyboardArrowRight />
+            </div>
+            <div className="flex items-center justify-between py-4 ">
+              <p>Invite Friends</p>
+              <MdKeyboardArrowRight />
+            </div>
+          </div>
         </div>
       )}
     </>

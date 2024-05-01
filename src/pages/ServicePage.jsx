@@ -1,8 +1,8 @@
 const ServicePage = () => {
   return (
-    <div className="max-w-2xl mx-0 pt-24 h-screen bg-white text-black">
-      <div className="card w-full px-0 mx-0 bg-base-100 shadow-xs border border-blue-100">
-        <div className="card-body">
+    <div className="max-w-2xl mx-auto pt-24 h-screen bg-white text-black">
+      <div className="card w-full bg-base-100 shadow-xs border border-blue-100">
+        <div className="card-body mx-auto">
           <div className="flex">
             <h2 className="card-title text-3xl font-light">Hello,</h2>
           </div>
@@ -15,7 +15,7 @@ const ServicePage = () => {
               href="https://tawk.to/chat/65f7fba8cc1376635adbb806/1hp8au3hg"
               target="_blank"
             >
-              <button className="btn bg-indigo-700  hover:text-white  uppercase  w-full text-white text-base mt-4 ">
+              <button className="btn bg-indigo-700  uppercase text-white text-base mt-4 ">
                 Contact Customer Service
               </button>
             </a>
