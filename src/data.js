@@ -113,11 +113,51 @@ const data = [
   },
   {
     id: 15,
+    name: "3 Stripe Sweatpants",
+    image:
+      "https://f.nooncdn.com/p/pzsku/Z69B2AD4ACDAA61733AC1Z/45/_/1694760104/28c10504-edd9-491d-9368-36c7ae358119.jpg?format=avif&width=240",
+    price: 32.99,
+    quantity: 2,
+  },
+  {
+    id: 16,
+    name: "Laptop Bag, 15.6 Inch Laptop Case",
+    image:
+      "https://f.nooncdn.com/p/pzsku/Z9D0EBDA7A252E5BD77A1Z/45/_/1711966845/2467aa7f-01ba-4f8c-b80b-9cb790aa2bda.jpg?format=avif&width=240",
+    price: 33.99,
+    quantity: 2,
+  },
+  {
+    id: 17,
+    name: "Double Touch Liquid Lip Colour 103 Natural Rose",
+    image:
+      "https://f.nooncdn.com/p/v1680513490/N46554630A_2.jpg?format=avif&width=240",
+    price: 34.99,
+    quantity: 3,
+  },
+  {
+    id: 18,
+    name: "Computer Corner Table 51 inch Home Gaming Desk",
+    image:
+      "https://f.nooncdn.com/p/pzsku/Z5520576CD5F80BCA5AE7Z/45/_/1665315775/56215d8c-b821-4b0a-a14c-3bcd9905ecbd.jpg?format=avif&width=240",
+    price: 35.99,
+    quantity: 3,
+  },
+  {
+    id: 19,
+    name: "Creamy Eye Treatment with Avocado White 14grams",
+    image:
+      "https://f.nooncdn.com/p/pzsku/ZA04A13FB4BE00427B20BZ/45/_/1711811949/04d6ce41-1aa9-480b-ada7-58121d8f60d6.jpg?format=avif&width=240",
+    price: 37.99,
+    quantity: 3,
+  },
+  {
+    id: 15,
     name: "Braking Folding Electric Scooter",
     image:
       "https://f.nooncdn.com/p/v1538035642/N17874181A_2.jpg?format=avif&width=240",
-    price: 130.49,
-    quantity: 1,
+    price: 140.49,
+    quantity: 3,
   },
 ];
 export default data;
